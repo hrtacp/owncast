@@ -1,0 +1,122 @@
+Downloaded ffmpeg because it was not found on your system [✓]
+
+Success! Run owncast by changing to the owncast directory and run ./owncast.
+The default port is 8080 and the default streaming key and admin password is abc123.
+Visit https://owncast.online/docs/configuration/ to learn how to configure your new Owncast server.
+
+[root@AKL-1425 ~]# sudo lsof -i :1935
+COMMAND   PID USER   FD   TYPE  DEVICE SIZE/OFF NODE NAME
+owncast 17548 root   13u  IPv6 7906383      0t0  TCP *:macromedia-fcs (LISTEN)
+[root@AKL-1425 ~]#
+[root@AKL-1425 ~]# sudo kill 17548
+[root@AKL-1425 ~]# cd
+[root@AKL-1425 ~]# ls
+a                                 guacamole-server-1.5.5
+alien-8.95                        guacamole-server-1.5.5.tar.gz
+alien_8.95.tar.xz                 guacamole-server-1.5.5.tar.gz.1
+anaconda-ks.cfg                   guacamole-server-1.5.5.tar.gz.2
+apache-maven-3.9.6                guacamole.war
+apache-maven-3.9.6-bin.tar.gz     M-A
+apache-maven-3.9.8                Music
+apache-maven-3.9.8-bin.tar.gz     owncast
+CentOS-Base.repo                  Pictures
+compile                           Public
+data                              python-dnf-0.6.4-2.sdl7.noarch.rpm
+Desktop                           remi-release-7.rpm
+dnf-0.6.4-2.sdl7.noarch.rpm       snap
+dnf-conf-0.6.4-2.sdl7.noarch.rpm  subscription-manager-1.24.42-1.el7.centos.x86_64.rpm
+Documents                         Sync
+Downloads                         Templates
+files.rpm                         thinclient_drives
+getplayer-linux                   Videos
+guacamole-client-1.5.5            yum-3.4.3-168.el7.centos.noarch.rpm
+guacamole-client-1.5.5.tar.gz     yumsdk
+[root@AKL-1425 ~]# cd owncast
+[root@AKL-1425 owncast]# ls
+ffmpeg  owncast
+[root@AKL-1425 owncast]# ./owncast
+INFO[2024-08-04T14:19:26+10:00] Owncast v0.1.3-linux-64bit (6ae3167b61d8485d3f269bd422f0c1a1f072ea5c)
+INFO[2024-08-04T14:19:26+10:00] Web server is listening on port 8080.
+
+INFO[2024-08-04T14:19:26+10:00] Configure this server by visiting /admin.
+
+^C
+[root@AKL-1425 owncast]# ls
+data  ffmpeg  owncast
+[root@AKL-1425 owncast]# cd
+[root@AKL-1425 ~]# sudo systemctl status owncast
+● owncast.service - Owncast Service
+Loaded: loaded (/etc/systemd/system/owncast.service; enabled; vendor preset: disabled)
+Active: activating (auto-restart) (Result: exit-code) since Sun 2024-08-04 14:19:43 AEST; 3s ago
+Process: 25834 ExecStart=/root/owncast/owncast (code=exited, status=217/USER)
+Main PID: 25834 (code=exited, status=217/USER)
+
+Aug 04 14:19:43 AKL-1425 systemd[1]: Unit owncast.service entered failed state.
+Aug 04 14:19:43 AKL-1425 systemd[1]: owncast.service failed.
+[root@AKL-1425 ~]# sudo systemctl start owncast
+[root@AKL-1425 ~]# sudo systemctl status owncast
+● owncast.service - Owncast Service
+Loaded: loaded (/etc/systemd/system/owncast.service; enabled; vendor preset: disabled)
+Active: activating (auto-restart) (Result: exit-code) since Sun 2024-08-04 14:19:58 AEST; 1s ago
+Process: 25867 ExecStart=/root/owncast/owncast (code=exited, status=217/USER)
+Main PID: 25867 (code=exited, status=217/USER)
+
+Aug 04 14:19:58 AKL-1425 systemd[1]: owncast.service: main process exited, code=exited, status=217/USER
+Aug 04 14:19:58 AKL-1425 systemd[1]: Unit owncast.service entered failed state.
+Aug 04 14:19:58 AKL-1425 systemd[1]: owncast.service failed.
+[root@AKL-1425 ~]# chmod +x /root/owncast/owncast
+[root@AKL-1425 ~]#
+[root@AKL-1425 ~]# sudo nano /etc/systemd/system/owncast.service
+[root@AKL-1425 ~]# sudo systemctl start owncast
+Warning: owncast.service changed on disk. Run 'systemctl daemon-reload' to reload units.
+[root@AKL-1425 ~]# systemctl daemon-reload
+[root@AKL-1425 ~]# sudo systemctl start owncast
+[root@AKL-1425 ~]# sudo systemctl status owncast
+● owncast.service - Owncast Service
+Loaded: loaded (/etc/systemd/system/owncast.service; enabled; vendor preset: disabled)
+Active: active (running) since Sun 2024-08-04 14:22:45 AEST; 4s ago
+Main PID: 26179 (owncast)
+Tasks: 12
+CGroup: /system.slice/owncast.service
+└─26179 /root/owncast/owncast
+
+Aug 04 14:22:45 AKL-1425 systemd[1]: Started Owncast Service.
+Aug 04 14:22:46 AKL-1425 owncast[26179]: time="2024-08-04T14:22:46+10:00" level=info msg="Owncast v0.1.3-linux...a5c)"
+Aug 04 14:22:46 AKL-1425 owncast[26179]: time="2024-08-04T14:22:46+10:00" level=info msg="Web server is listen...080."
+Aug 04 14:22:46 AKL-1425 owncast[26179]: time="2024-08-04T14:22:46+10:00" level=info msg="Configure this serve...min."
+Hint: Some lines were ellipsized, use -l to show in full.
+[root@AKL-1425 ~]# cd
+[root@AKL-1425 ~]# sudo ln -s /snap/bin/certbot /usr/bin/certbot
+ln: failed to create symbolic link ‘/usr/bin/certbot’: File exists
+[root@AKL-1425 ~]# sudo certbot certonly --webroot
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+Please enter the domain name(s) you would like on your certificate (comma and/or
+space separated) (Enter 'c' to cancel): [stream.technoharshu.com](http://stream.technoharshu.com/)
+Requesting a certificate for [stream.technoharshu.com](http://stream.technoharshu.com/)
+Input the webroot for [stream.technoharshu.com](http://stream.technoharshu.com/): (Enter 'c' to cancel): /root/owncast
+
+Certbot failed to authenticate some domains (authenticator: webroot). The Certificate Authority reported these problems:
+Domain: [stream.technoharshu.com](http://stream.technoharshu.com/)
+Type:   connection
+Detail: 103.108.94.226: Fetching http://stream.technoharshu.com/.well-known/acme-challenge/ep1UxdK2kE78N5DxDG1oZYg9Ml_Snx9TeMR3KXy6WQo: Error getting validation data
+
+Hint: The Certificate Authority failed to download the temporary challenge files created by Certbot. Ensure that the listed domains serve their content from the provided --webroot-path/-w and that files created there can be downloaded from the internet.
+
+Some challenges have failed.
+Ask for help or search for solutions at [https://community.letsencrypt.org](https://community.letsencrypt.org/). See the logfile /var/log/letsencrypt/letsencrypt.log or re-run Certbot with -v for more details.
+[root@AKL-1425 ~]# sudo certbot certonly --webroot
+Saving debug log to /var/log/letsencrypt/letsencrypt.log
+Please enter the domain name(s) you would like on your certificate (comma and/or
+space separated) (Enter 'c' to cancel): [stream.technoharshu.com](http://stream.technoharshu.com/)
+Requesting a certificate for [stream.technoharshu.com](http://stream.technoharshu.com/)
+Input the webroot for [stream.technoharshu.com](http://stream.technoharshu.com/): (Enter 'c' to cancel): /root/owncast/
+
+Certbot failed to authenticate some domains (authenticator: webroot). The Certificate Authority reported these problems:
+Domain: [stream.technoharshu.com](http://stream.technoharshu.com/)
+Type:   connection
+Detail: 103.108.94.226: Fetching http://stream.technoharshu.com/.well-known/acme-challenge/kd-mh-W3qN4E_cC2vkCGmeFoLfMdp7dVMQB0w-igp9M: Error getting validation data
+
+Hint: The Certificate Authority failed to download the temporary challenge files created by Certbot. Ensure that the listed domains serve their content from the provided --webroot-path/-w and that files created there can be downloaded from the internet.
+
+Some challenges have failed.
+Ask for help or search for solutions at [https://community.letsencrypt.org](https://community.letsencrypt.org/). See the logfile /var/log/letsencrypt/letsencrypt.log or re-run Certbot with -v for more details.
