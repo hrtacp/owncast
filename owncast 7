@@ -1,0 +1,244 @@
+[root@AKL-1425 ~]#         will then just ignore the repository until you permanently enable it
+bash: will: command not found...
+[root@AKL-1425 ~]#         again or use --enablerepo for temporary usage:
+bash: again: command not found...
+[root@AKL-1425 ~]#
+[root@AKL-1425 ~]#             yum-config-manager --disable <repoid>
+-bash: syntax error near unexpected token `newline' [root@AKL-1425 ~]#         or bash: or: command not found... [root@AKL-1425 ~]#             subscription-manager repos --disable=<repoid> -bash: syntax error near unexpected token` newline'
+[root@AKL-1425 ~]#
+[root@AKL-1425 ~]#      5. Configure the failing repository to be skipped, if it is unavailable.
+bash: 5.: command not found...
+[root@AKL-1425 ~]#         Note that yum will try to contact the repo. when it runs most commands,
+bash: Note: command not found...
+[root@AKL-1425 ~]#         so will have to try and fail each time (and thus. yum will be be much
+-bash: syntax error near unexpected token `(' [root@AKL-1425 ~]#         slower). If it is a very temporary problem though, this is often a nice -bash: syntax error near unexpected token` )'
+[root@AKL-1425 ~]#         compromise:
+bash: compromise:: command not found...
+[root@AKL-1425 ~]#
+[root@AKL-1425 ~]#             yum-config-manager --save --setopt=<repoid>.skip_if_unavailable=true
+-bash: repoid: No such file or directory
+[root@AKL-1425 ~]#
+[root@AKL-1425 ~]# Cannot find a valid baseurl for repo: base/7/x86_64
+bash: Cannot: command not found...
+[root@AKL-1425 ~]# ping 1.1.1.1
+PING 1.1.1.1 (1.1.1.1) 56(84) bytes of data.
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=61 time=0.266 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=61 time=0.282 ms
+^C
+--- 1.1.1.1 ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 999ms
+rtt min/avg/max/mdev = 0.266/0.274/0.282/0.008 ms
+[root@AKL-1425 ~]# ping 8.8.8.8
+PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=119 time=27.0 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=119 time=27.0 ms
+64 bytes from 8.8.8.8: icmp_seq=3 ttl=119 time=27.0 ms
+^C
+--- 8.8.8.8 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2002ms
+rtt min/avg/max/mdev = 27.053/27.071/27.088/0.014 ms
+[root@AKL-1425 ~]# sudo yum makecache
+Loaded plugins: aliases, fastestmirror, langpacks, product-id, protectbase, search-disabled-repos, subscription-
+: manager
+
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+Loading mirror speeds from cached hostfile
+Could not retrieve mirrorlist http://mirrorlist.centos.org/?release=7&arch=x86_64&repo=os&infra=stock error was
+14: curl#6 - "Could not resolve host: [mirrorlist.centos.org](http://mirrorlist.centos.org/); Unknown error"
+
+One of the configured repositories failed (Unknown),
+and yum doesn't have enough cached data to continue. At this point the only
+safe thing yum can do is fail. There are a few ways to work "fix" this:
+
+```
+ 1. Contact the upstream for the repository and get them to fix the problem.
+
+ 2. Reconfigure the baseurl/etc. for the repository, to point to a working
+    upstream. This is most often useful if you are using a newer
+    distribution release than is supported by the repository (and the
+    packages for the previous distribution release still work).
+
+ 3. Run the command with the repository temporarily disabled
+        yum --disablerepo=<repoid> ...
+
+ 4. Disable the repository permanently, so yum won't use it by default. Yum
+    will then just ignore the repository until you permanently enable it
+    again or use --enablerepo for temporary usage:
+
+        yum-config-manager --disable <repoid>
+    or
+        subscription-manager repos --disable=<repoid>
+
+ 5. Configure the failing repository to be skipped, if it is unavailable.
+    Note that yum will try to contact the repo. when it runs most commands,
+    so will have to try and fail each time (and thus. yum will be be much
+    slower). If it is a very temporary problem though, this is often a nice
+    compromise:
+
+        yum-config-manager --save --setopt=<repoid>.skip_if_unavailable=true
+
+```
+
+Cannot find a valid baseurl for repo: base/7/x86_64
+[root@AKL-1425 ~]# sudo nano /etc/yum.repos.d/CentOS-Base.repo
+[root@AKL-1425 ~]# sudo nano /etc/yum.repos.d/CentOS-Base.repo
+[root@AKL-1425 ~]# sudo yum install wget
+Loaded plugins: aliases, fastestmirror, langpacks, product-id, protectbase, search-disabled-repos, subscription-
+: manager
+
+This system is not registered with an entitlement server. You can use subscription-manager to register.
+
+Loading mirror speeds from cached hostfile
+Could not retrieve mirrorlist http://mirrorlist.centos.org/?release=7&arch=x86_64&repo=os&infra=stock error was
+14: curl#6 - "Could not resolve host: [mirrorlist.centos.org](http://mirrorlist.centos.org/); Unknown error"
+Could not retrieve mirrorlist [http://mirrorlist.centos.org?arch=x86_64&release=7&repo=sclo-rh](http://mirrorlist.centos.org/?arch=x86_64&release=7&repo=sclo-rh) error was
+14: curl#6 - "Could not resolve host: [mirrorlist.centos.org](http://mirrorlist.centos.org/); Unknown error"
+
+One of the configured repositories failed (Unknown),
+and yum doesn't have enough cached data to continue. At this point the only
+safe thing yum can do is fail. There are a few ways to work "fix" this:
+
+```
+ 1. Contact the upstream for the repository and get them to fix the problem.
+
+ 2. Reconfigure the baseurl/etc. for the repository, to point to a working
+    upstream. This is most often useful if you are using a newer
+    distribution release than is supported by the repository (and the
+    packages for the previous distribution release still work).
+
+ 3. Run the command with the repository temporarily disabled
+        yum --disablerepo=<repoid> ...
+
+ 4. Disable the repository permanently, so yum won't use it by default. Yum
+    will then just ignore the repository until you permanently enable it
+    again or use --enablerepo for temporary usage:
+
+        yum-config-manager --disable <repoid>
+    or
+        subscription-manager repos --disable=<repoid>
+
+ 5. Configure the failing repository to be skipped, if it is unavailable.
+    Note that yum will try to contact the repo. when it runs most commands,
+    so will have to try and fail each time (and thus. yum will be be much
+    slower). If it is a very temporary problem though, this is often a nice
+    compromise:
+
+        yum-config-manager --save --setopt=<repoid>.skip_if_unavailable=true
+
+```
+
+Cannot find a valid baseurl for repo: centos-sclo-rh/x86_64
+[root@AKL-1425 ~]# ^C
+[root@AKL-1425 ~]# dnf install 'dnf-command(copr)'
+CentOS-7 - Extras                                                                     0.0  B/s |   0  B     00:00
+
+CentOS-7 - Updates                                                                    0.0  B/s |   0  B     00:00
+
+CentOS-7 - Base                                                                       0.0  B/s |   0  B     00:00
+
+Tools and libraries for Red Hat subscription management.                              0.0  B/s |   0  B     00:00
+
+Copr repo for caddy owned by @caddy                                                   0.0  B/s |   0  B     00:00
+
+CentOS-7 - Updates                                                                    0.0  B/s |   0  B     00:00
+
+CentOS-7 - SCLo sclo                                                                  0.0  B/s |   0  B     00:00
+
+CentOS-7 - Base                                                                       0.0  B/s |   0  B     00:00
+
+CentOS-7 - SCLo rh                                                                    0.0  B/s |   0  B     00:00
+
+Yarn Repository                                                                       0.0  B/s |   0  B     00:00
+
+[Nux.Ro](http://nux.ro/) RPMs for general desktop use                                                   0.0  B/s |   0  B     00:00
+
+Oracle Linux / RHEL / CentOS-7 / x86_64 - VirtualBox                                  0.0  B/s |   0  B     00:00
+
+Extra Packages for Enterprise Linux 7 - x86_64                                        0.0  B/s |   0  B     00:00
+
+CentOS-7 - Extras                                                                     0.0  B/s |   0  B     00:00
+
+Failed to synchronize cache for repo 'centos-extras', ignoring this repo.
+Failed to synchronize cache for repo 'updates', ignoring this repo.
+Failed to synchronize cache for repo 'centos-base', ignoring this repo.
+Failed to synchronize cache for repo 'centos-updates', ignoring this repo.
+Failed to synchronize cache for repo 'centos-sclo-sclo', ignoring this repo.
+Failed to synchronize cache for repo 'base', ignoring this repo.
+Failed to synchronize cache for repo 'centos-sclo-rh', ignoring this repo.
+Failed to synchronize cache for repo 'extras', ignoring this repo.
+Package dnf-plugins-core-4.0.2.2-3.el7_6.noarch is already installed.
+Dependencies resolved.
+Nothing to do.
+Complete!
+[root@AKL-1425 ~]# dnf copr enable @caddy/caddy
+
+You are about to enable a Copr repository. Please note that this
+repository is not part of the main distribution, and quality may vary.
+
+The Fedora Project does not exercise any power over the contents of
+this repository beyond the rules outlined in the Copr FAQ at
+https://docs.pagure.org/copr.copr/user_documentation.html#what-i-can-build-in-copr,
+and packages are not held to any quality or security level.
+
+Please do not file bug reports about these packages in Fedora
+Bugzilla. In case of problems, contact the owner of this repository.
+
+# Do you really want to enable [copr.fedorainfracloud.org/@caddy/caddy](http://copr.fedorainfracloud.org/@caddy/caddy)? [y/N]: y
+Repository successfully enabled.
+[root@AKL-1425 ~]# dnf install caddy
+CentOS-7 - Extras 0.0 B/s | 0 B 00:00
+CentOS-7 - Updates 0.0 B/s | 0 B 00:00
+CentOS-7 - Base 0.0 B/s | 0 B 00:00
+Tools and libraries for Red Hat subscription management. 0.0 B/s | 0 B 00:00
+Copr repo for caddy owned by @caddy 0.0 B/s | 0 B 00:00
+CentOS-7 - Updates 0.0 B/s | 0 B 00:00
+CentOS-7 - SCLo sclo 0.0 B/s | 0 B 00:00
+CentOS-7 - Base 0.0 B/s | 0 B 00:00
+CentOS-7 - SCLo rh 0.0 B/s | 0 B 00:00
+Yarn Repository 0.0 B/s | 0 B 00:00[Nux.Ro](http://nux.ro/) RPMs for general desktop use 0.0 B/s | 0 B 00:00
+Oracle Linux / RHEL / CentOS-7 / x86_64 - VirtualBox 0.0 B/s | 0 B 00:00
+Extra Packages for Enterprise Linux 7 - x86_64 0.0 B/s | 0 B 00:00
+CentOS-7 - Extras 0.0 B/s | 0 B 00:00
+Failed to synchronize cache for repo 'centos-extras', ignoring this repo.
+Failed to synchronize cache for repo 'updates', ignoring this repo.
+Failed to synchronize cache for repo 'centos-base', ignoring this repo.
+Failed to synchronize cache for repo 'centos-updates', ignoring this repo.
+Failed to synchronize cache for repo 'centos-sclo-sclo', ignoring this repo.
+Failed to synchronize cache for repo 'base', ignoring this repo.
+Failed to synchronize cache for repo 'centos-sclo-rh', ignoring this repo.
+Failed to synchronize cache for repo 'extras', ignoring this repo.
+Dependencies resolved.
+
+# Package Arch Version Repository Size
+
+Installing:
+caddy          x86_64          2.7.6-1.el7           copr:copr.fedorainfracloud.org:group_caddy:caddy           23 M
+
+# Transaction Summary
+
+Install  1 Package
+
+## Total download size: 23 M
+Installed size: 60 M
+Is this ok [y/N]: y
+Downloading Packages:
+caddy-2.7.6-1.el7.x86_64.rpm 28 MB/s | 23 MB 00:00
+
+Total                                                                                  27 MB/s |  23 MB     00:00
+
+Running transaction check
+Transaction check succeeded.
+Running transaction test
+Transaction test succeeded.
+Running transaction
+Preparing        :                                                                                              1/1
+Running scriptlet: caddy-2.7.6-1.el7.x86_64                                                                     1/1
+Installing       : caddy-2.7.6-1.el7.x86_64                                                                     1/1
+Running scriptlet: caddy-2.7.6-1.el7.x86_64                                                                     1/1
+Verifying        : caddy-2.7.6-1.el7.x86_64                                                                     1/1
+
+Installed:
+caddy-2.7.6-1.el7.x86_64
+
+Complete!
